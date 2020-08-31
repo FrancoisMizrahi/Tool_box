@@ -6,6 +6,7 @@
 from os.path import split
 import pandas as pd
 import datetime
+from pytube import YouTube
 
 pd.set_option('display.width', 200)
 
@@ -46,6 +47,15 @@ def clean_data(data):
              7: '1/trimestre', 8: 'Less', 9: 'Never'}
     data.loc[:, 'Frequency'] = data['Frequency'].map(drows)
     return data
+
+def download_youtube_video(url):
+    try:
+        yt_obj = YouTube(url)
+        filters = yt_obj.streams.filter(progressive=True, file_extension='mp4')
+        filters.get_highest_resolution().download(output_path='/Users/francoismizrahi/Downloads')
+        print('Video Downloaded Successfully')
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
